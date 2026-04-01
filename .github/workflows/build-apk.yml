@@ -25,12 +25,11 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
-          java-version: '17'
+          java-version: '21'
 
       - name: Prepare Web Folder
         run: |
           mkdir www
-          # index.html ෆයිල් එක www ෆෝල්ඩරයට කොපි කිරීම
           cp *.html www/ 
 
       - name: Install Capacitor & Convert to Android
