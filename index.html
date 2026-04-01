@@ -13,6 +13,7 @@
             --primary: #3b82f6;
             --secondary: #10b981;
             --danger: #ef4444;
+            --warning: #f59e0b;
             --border-color: #e4e4e7;
             --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
             --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
@@ -28,6 +29,7 @@
             --primary: #60a5fa;
             --secondary: #34d399;
             --danger: #f87171;
+            --warning: #fbbf24;
             --border-color: #27272a;
             --shadow-sm: 0 2px 4px rgba(0,0,0,0.2);
             --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.3);
@@ -141,9 +143,9 @@
         .empty-icon { font-size: 3rem; margin-bottom: 16px; opacity: 0.5; }
         [data-theme="dark"] .empty-state { color: #a1a1aa; }
 
-        /* Update Message UI */
-        .update-box { background: rgba(0,0,0,0.04); padding: 16px; border-radius: 12px; text-align: left; margin-bottom: 24px; font-size: 0.95rem; line-height: 1.6; border: 1px solid var(--border-color); }
-        [data-theme="dark"] .update-box { background: rgba(255,255,255,0.05); }
+        /* Message Box UI */
+        .msg-box { background: rgba(0,0,0,0.04); padding: 16px; border-radius: 12px; text-align: left; margin-bottom: 24px; font-size: 0.95rem; line-height: 1.6; border: 1px solid var(--border-color); }
+        [data-theme="dark"] .msg-box { background: rgba(255,255,255,0.05); }
     </style>
 </head>
 <body>
@@ -284,28 +286,54 @@
         <h2 style="font-size: 1.6rem; font-weight: 800; margin-bottom: 8px;">App Updated!</h2>
         <p style="color: #71717a; font-size: 0.95rem; margin-bottom: 24px;">අලුත් සංස්කරණය වෙත සාදරයෙන් පිළිගනිමු.</p>
         
-        <div class="update-box" id="updateMessageContent">
+        <div class="msg-box" id="updateMessageContent">
             </div>
 
         <button onclick="closeUpdateModal()" class="btn-submit">Awesome, Got it!</button>
     </div>
 </div>
 
+<div class="modal-backdrop" id="announcementModal">
+    <div class="modal-content" style="text-align: center;">
+        <div style="margin-bottom: 16px;">
+            <i class="fas fa-bullhorn" style="font-size: 3.5rem; color: var(--warning);"></i>
+        </div>
+        <h2 id="announceTitle" style="font-size: 1.5rem; font-weight: 800; margin-bottom: 12px; color: var(--warning);">විශේෂ නිවේදනයයි!</h2>
+        
+        <div class="msg-box" id="announceBody" style="font-size: 0.95rem; text-align: left;">
+            </div>
+
+        <button onclick="closeAnnouncement()" class="btn-submit" style="background: var(--warning); color: #000;">Got it</button>
+    </div>
+</div>
+
 <script>
     // ==========================================
-    // UPDATE SYSTEM & VERSION CONFIGURATION
+    // 1. UPDATE SYSTEM CONFIGURATION
     // ==========================================
-    
-    // 1. App Version Number (මෙය වෙනස් කළ විට Popup එක පෙන්වයි)
-    const APP_VERSION = "1.1"; 
-
-    // 2. අලුත් Update එකේ විස්තරය
+    const APP_VERSION = "2.0"; 
     const UPDATE_MESSAGE = `
-        <strong>අලුත් සංස්කරණය (v1.1)</strong><br><br>
+        <strong>අලුත් සංස්කරණය (v2.0)</strong><br><br>
         ✅ අලුත්ම <strong>Neo-Brutalism & Modern</strong> පෙනුම.<br>
         ✅ එක් එක් වාහනයට වෙන වෙනම ඉන්ධන සහ වියදම් බලාගැනීමේ පහසුකම.<br>
         ✅ App එකේ ඉහළින්ම Version අංකය දිස්වීම.<br>
-        ✅ Update Notifications නැවත එක් කිරීම.
+        ✅ අභිරුචි නිවේදන (Custom Announcements) එක් කිරීම.
+    `;
+
+    // ==========================================
+    // 2. CUSTOM ANNOUNCEMENT SYSTEM (හදිසි පණිවිඩ)
+    // ==========================================
+    
+    // පණිවිඩ අංකය (අලුත් පණිවිඩයක් යවන සෑම විටම මෙය msg_1, msg_2 ලෙස වෙනස් කරන්න)
+    // ඔබට පණිවිඩයක් යැවීමට අවශ්‍ය නැති නම් මෙය හිස්ව තබන්න: const ANNOUNCEMENT_ID = "";
+    const ANNOUNCEMENT_ID = "msg_1"; 
+    
+    // පණිවිඩයේ මාතෘකාව
+    const ANNOUNCE_TITLE = "ඉන්ධන මිල සංශෝධනය"; 
+    
+    // පණිවිඩයේ අන්තර්ගතය
+    const ANNOUNCE_BODY = `
+        අද මධ්‍යම රාත්‍රියේ සිට ක්‍රියාත්මක වන පරිදි ඉන්ධන මිල ගණන් වෙනස් වී ඇත. කරුණාකර ඔබගේ වාහන වල ඉන්ධන මිල වෙනස් කරගන්න.
     `;
 
     // ==========================================
@@ -316,11 +344,11 @@
     let currentLogPrice = 0;
 
     function init() {
-        // Display Version
         document.getElementById('versionDisplay').innerText = APP_VERSION;
         
         applyTheme();
         checkUpdates();
+        checkAnnouncements(); // අලුතින් එකතු කල පේළිය
         checkWeeklyReset();
         updateUI();
         setupCalculator();
@@ -328,20 +356,33 @@
 
     // --- Update Logic ---
     function checkUpdates() {
-        // Check local storage to see if the user has seen this version
         const savedVersion = localStorage.getItem('fuelPassCurrentVersion_Neo');
-        
         if (savedVersion !== APP_VERSION) {
             document.getElementById('updateMessageContent').innerHTML = UPDATE_MESSAGE;
-            // Delay modal slightly so it doesn't instantly flash on load
-            setTimeout(() => {
-                openModal('updateModal');
-            }, 600);
+            setTimeout(() => { openModal('updateModal'); }, 600);
         }
     }
 
     function closeUpdateModal() {
         localStorage.setItem('fuelPassCurrentVersion_Neo', APP_VERSION);
+        closeModals();
+    }
+
+    // --- Announcement Logic ---
+    function checkAnnouncements() {
+        const seenMsg = localStorage.getItem('fuelPass_seenMessage');
+        const savedVersion = localStorage.getItem('fuelPassCurrentVersion_Neo');
+        
+        // Update popup එකයි මේකයි එකවර පෙන්වීම වැළැක්වීමට
+        if (savedVersion === APP_VERSION && ANNOUNCEMENT_ID !== "" && seenMsg !== ANNOUNCEMENT_ID) {
+            document.getElementById('announceTitle').innerText = ANNOUNCE_TITLE;
+            document.getElementById('announceBody').innerHTML = ANNOUNCE_BODY;
+            setTimeout(() => { openModal('announcementModal'); }, 600); 
+        }
+    }
+
+    function closeAnnouncement() {
+        localStorage.setItem('fuelPass_seenMessage', ANNOUNCEMENT_ID);
         closeModals();
     }
     // -------------------
