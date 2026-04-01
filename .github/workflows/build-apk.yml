@@ -32,14 +32,13 @@ jobs:
           mkdir www
           cp *.html www/ 
 
-      - name: Install Capacitor
+      - name: Install Capacitor & Setup Live Update
         run: |
           npm init -y
-          npm install @capacitor/cli @capacitor/core @capacitor/android
+          # මෙහිදී @capacitor/assets අලුතින් එක් කර ඇත
+          npm install @capacitor/cli @capacitor/core @capacitor/android @capacitor/assets
           npx cap init "My Fuel Pass" "com.myfuelpass.app" --web-dir www
-
-      - name: Setup Live Update URL
-        run: |
+          
           REPO_NAME=$(basename ${{ github.repository }})
           OWNER_NAME=${{ github.repository_owner }}
           cat <<EOF > capacitor.config.json
@@ -54,7 +53,17 @@ jobs:
           }
           EOF
           npx cap add android
-          npx cap sync android
+
+      - name: Generate App Icon
+        run: |
+          # icon.png පින්තූරය ඇත්නම් එයින් App Icon සෑදීම
+          mkdir -p assets
+          if [ -f "icon.png" ]; then
+            cp icon.png assets/icon.png
+            npx capacitor-assets generate --android
+          else
+            echo "icon.png එක සොයාගත නොහැක. Default Icon එක භාවිතා වේ."
+          fi
 
       - name: Fix Kotlin Duplicate Classes
         run: |
