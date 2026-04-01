@@ -3,275 +3,351 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>My Fuel Pass - Premium</title>
+    <title>My Fuel Pass - Ultimate</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
-            --primary: #4f46e5;
-            --primary-light: #818cf8;
-            --accent: #0ea5e9;
-            --success: #10b981;
+            --bg-color: #f4f4f5;
+            --text-color: #09090b;
+            --card-bg: #ffffff;
+            --primary: #3b82f6;
+            --secondary: #10b981;
             --danger: #ef4444;
-            
-            /* Light Mode Liquid Glass Variables */
-            --bg-gradient: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
-            --glass-bg: rgba(255, 255, 255, 0.45);
-            --glass-border: rgba(255, 255, 255, 0.6);
-            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
-            --text-main: #1e293b;
-            --text-muted: #475569;
-            --modal-bg: rgba(255, 255, 255, 0.85);
-            --input-bg: rgba(255, 255, 255, 0.6);
+            --border-color: #e4e4e7;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+            --radius-lg: 24px;
+            --radius-md: 16px;
         }
 
         [data-theme="dark"] {
-            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
-            --glass-bg: rgba(15, 23, 42, 0.55);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --modal-bg: rgba(15, 23, 42, 0.9);
-            --input-bg: rgba(30, 41, 59, 0.6);
+            --bg-color: #09090b;
+            --text-color: #fafafa;
+            --card-bg: #18181b;
+            --primary: #60a5fa;
+            --secondary: #34d399;
+            --danger: #f87171;
+            --border-color: #27272a;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.2);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.3);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.4);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; transition: background 0.4s, color 0.4s, border 0.4s; }
-        body { background: var(--bg-gradient); background-attachment: fixed; color: var(--text-main); min-height: 100vh; display: flex; justify-content: center; }
-
-        .liquid-glass { background: var(--glass-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid var(--glass-border); box-shadow: var(--glass-shadow); border-radius: 24px; }
-        .app-container { width: 100%; max-width: 500px; padding: 24px 16px; padding-bottom: 100px; }
-
-        .app-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; }
-        .logo-area h2 { font-size: 1.5rem; font-weight: 800; background: linear-gradient(to right, #4f46e5, #0ea5e9); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .theme-btn { width: 45px; height: 45px; border-radius: 14px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.2rem; color: var(--text-main); }
-
-        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
-        .hero-card { grid-column: span 2; padding: 24px; text-align: center; }
-        .hero-card h1 { font-size: 2.5rem; margin: 8px 0; font-weight: 800; color: var(--text-main); }
-        .hero-card p { font-size: 0.95rem; font-weight: 600; color: var(--text-muted); }
-
-        .mini-card { padding: 16px; display: flex; flex-direction: column; align-items: center; }
-        .mini-card h3 { font-size: 1.2rem; margin-top: 4px; color: var(--text-main); }
-        .mini-card span { font-size: 0.75rem; color: var(--text-muted); font-weight: 700; letter-spacing: 0.5px; }
-
-        .section-title { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding: 0 4px; }
-        .section-title h4 { font-weight: 700; color: var(--text-muted); text-transform: uppercase; font-size: 0.85rem; }
-
-        .vehicle-card { padding: 20px; margin-bottom: 16px; animation: slideIn 0.5s ease-out; }
-        @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-        .v-header { display: flex; justify-content: space-between; margin-bottom: 15px; }
-        .v-title h3 { font-size: 1.2rem; font-weight: 700; }
-        .v-title p { font-size: 0.9rem; color: var(--primary-light); font-family: monospace; font-weight: bold; margin-top: 2px; }
-        .v-qr-thumb { width: 60px; height: 60px; border-radius: 12px; border: 2px solid var(--glass-border); padding: 2px; background: rgba(255,255,255,0.8); cursor: pointer; object-fit: cover; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', -apple-system, sans-serif; -webkit-tap-highlight-color: transparent; transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; }
         
-        .v-badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 10px; font-size: 0.75rem; font-weight: 700; }
-        .badge-allow { background: rgba(16, 185, 129, 0.2); color: var(--success); }
-        .badge-deny { background: rgba(239, 68, 68, 0.2); color: var(--danger); }
+        body { background-color: var(--bg-color); color: var(--text-color); min-height: 100vh; display: flex; justify-content: center; overflow-x: hidden; }
 
-        .v-details { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 15px 0; padding: 12px; background: rgba(0,0,0,0.05); border-radius: 12px; }
-        [data-theme="dark"] .v-details { background: rgba(255,255,255,0.05); }
-        .detail-item { font-size: 0.8rem; display: flex; flex-direction: column; }
-        .detail-item b { color: var(--text-main); font-size: 0.9rem; margin-top: 2px; }
+        .app-container { width: 100%; max-width: 480px; padding: 20px; padding-bottom: 120px; position: relative; }
 
-        .btn-log { width: 100%; padding: 14px; border-radius: 14px; border: none; background: linear-gradient(135deg, var(--primary), var(--accent)); color: white; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer; box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3); }
-        .btn-log:disabled { background: var(--text-muted); cursor: not-allowed; opacity: 0.5; box-shadow: none; }
+        /* Header & Version */
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; position: relative; z-index: 10; }
+        .header-title { font-size: 1.75rem; font-weight: 800; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1.1; }
+        .version-badge { font-size: 0.75rem; font-weight: 700; color: var(--primary); background: rgba(59, 130, 246, 0.1); padding: 2px 8px; border-radius: 10px; display: inline-block; margin-top: 4px; }
+        .theme-toggle { background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-color); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; cursor: pointer; box-shadow: var(--shadow-sm); }
 
-        .fab { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; border-radius: 20px; background: linear-gradient(135deg, var(--primary), var(--accent)); color: white; border: none; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 20px rgba(79, 70, 229, 0.4); cursor: pointer; z-index: 100; }
+        /* Status Widget */
+        .status-widget { background: var(--card-bg); border-radius: var(--radius-lg); padding: 24px; text-align: center; margin-bottom: 24px; border: 1px solid var(--border-color); box-shadow: var(--shadow-md); position: relative; overflow: hidden; }
+        .status-widget::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, var(--primary), var(--secondary)); }
+        .date-text { font-size: 0.9rem; color: #71717a; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+        .type-display { font-size: 3rem; font-weight: 900; line-height: 1; margin-bottom: 8px; letter-spacing: -1px; }
+        .info-text { font-size: 0.95rem; font-weight: 500; color: #52525b; }
+        [data-theme="dark"] .date-text, [data-theme="dark"] .info-text { color: #a1a1aa; }
 
-        .modal { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
-        .modal.active { display: flex; animation: fadeIn 0.3s; }
-        @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
-        .modal-content { background: var(--modal-bg); width: 100%; max-width: 400px; padding: 30px; border-radius: 28px; border: 1px solid var(--glass-border); box-shadow: var(--glass-shadow); max-height: 90vh; overflow-y: auto; }
+        /* Summary Stats */
+        .stats-container { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 30px; }
+        .stat-card { background: var(--card-bg); padding: 20px; border-radius: var(--radius-md); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); display: flex; flex-direction: column; align-items: flex-start; }
+        .stat-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; margin-bottom: 12px; }
+        .icon-blue { background: rgba(59, 130, 246, 0.1); color: var(--primary); }
+        .icon-green { background: rgba(16, 185, 129, 0.1); color: var(--secondary); }
+        .stat-label { font-size: 0.8rem; font-weight: 600; color: #71717a; text-transform: uppercase; margin-bottom: 4px; }
+        [data-theme="dark"] .stat-label { color: #a1a1aa; }
+        .stat-value { font-size: 1.5rem; font-weight: 800; }
 
-        input, select { width: 100%; padding: 14px; border-radius: 12px; border: 1px solid var(--glass-border); margin-top: 6px; background: var(--input-bg); color: var(--text-main); font-size: 0.95rem; font-weight: 500; }
-        input:focus, select:focus { outline: none; border-color: var(--primary); }
-        option { background: var(--modal-bg); color: var(--text-main); }
-        label { font-size: 0.8rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; display: block; margin-top: 15px; }
+        /* Section Header */
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .section-header h2 { font-size: 1.2rem; font-weight: 700; }
+        .reset-btn { background: none; border: none; color: var(--danger); font-size: 0.85rem; font-weight: 600; display: flex; align-items: center; gap: 6px; cursor: pointer; padding: 6px 12px; border-radius: 20px; background: rgba(239, 68, 68, 0.1); }
 
-        .qr-full-img { width: 100%; border-radius: 16px; margin: 15px 0; border: 2px solid var(--glass-border); }
-        .calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
-        .calc-grid input { font-size: 1.2rem; font-weight: bold; text-align: center; color: var(--primary); }
+        /* Vehicle Cards */
+        .vehicle-card { background: var(--card-bg); border-radius: var(--radius-lg); border: 1px solid var(--border-color); margin-bottom: 20px; box-shadow: var(--shadow-md); overflow: hidden; animation: fadeInUp 0.4s ease-out; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .vc-header { padding: 20px; display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid var(--border-color); }
+        .vc-info h3 { font-size: 1.3rem; font-weight: 800; margin-bottom: 4px; }
+        .vc-plate { display: inline-block; background: #fbbf24; color: #000; padding: 4px 10px; border-radius: 6px; font-weight: 700; font-family: monospace; font-size: 0.9rem; border: 2px solid #000; box-shadow: 2px 2px 0 #000; }
+        .vc-qr { width: 64px; height: 64px; border-radius: 12px; border: 1px solid var(--border-color); object-fit: cover; cursor: pointer; box-shadow: var(--shadow-sm); }
+        
+        .vc-body { padding: 20px; }
+        .status-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 20px; font-weight: 600; font-size: 0.85rem; margin-bottom: 16px; width: 100%; justify-content: center; }
+        .status-allowed { background: rgba(16, 185, 129, 0.1); color: var(--secondary); border: 1px solid rgba(16, 185, 129, 0.2); }
+        .status-denied { background: rgba(239, 68, 68, 0.1); color: var(--danger); border: 1px solid rgba(239, 68, 68, 0.2); }
 
-        /* Update Notification Styles */
-        .update-icon { font-size: 3rem; color: var(--success); margin-bottom: 15px; }
-        .update-content { font-size: 0.95rem; line-height: 1.6; margin: 15px 0; text-align: left; background: rgba(0,0,0,0.05); padding: 15px; border-radius: 12px; }
-        [data-theme="dark"] .update-content { background: rgba(255,255,255,0.05); }
+        .specs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+        .spec-item { display: flex; flex-direction: column; }
+        .spec-label { font-size: 0.75rem; color: #71717a; font-weight: 600; text-transform: uppercase; }
+        [data-theme="dark"] .spec-label { color: #a1a1aa; }
+        .spec-val { font-size: 0.95rem; font-weight: 700; }
+
+        /* Individual Vehicle Stats */
+        .vehicle-stats { background: rgba(0,0,0,0.03); border-radius: 12px; padding: 12px; margin-bottom: 16px; display: flex; justify-content: space-between; border: 1px solid var(--border-color); }
+        [data-theme="dark"] .vehicle-stats { background: rgba(255,255,255,0.03); }
+        .v-stat { text-align: center; flex: 1; }
+        .v-stat:first-child { border-right: 1px solid var(--border-color); }
+        .v-stat-label { font-size: 0.7rem; font-weight: 700; color: #71717a; text-transform: uppercase; }
+        [data-theme="dark"] .v-stat-label { color: #a1a1aa; }
+        .v-stat-val { font-size: 1.1rem; font-weight: 800; color: var(--primary); }
+
+        .vc-actions { display: flex; gap: 10px; }
+        .btn-primary { flex: 1; background: var(--text-color); color: var(--bg-color); border: none; padding: 14px; border-radius: 12px; font-weight: 700; font-size: 0.95rem; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; box-shadow: var(--shadow-sm); }
+        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+        .btn-icon { width: 48px; height: 48px; border-radius: 12px; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--danger); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.1rem; box-shadow: var(--shadow-sm); }
+
+        /* FAB */
+        .fab-container { position: fixed; bottom: 30px; left: 0; right: 0; display: flex; justify-content: center; pointer-events: none; z-index: 50; }
+        .fab { background: var(--primary); color: white; border: none; height: 64px; padding: 0 32px; border-radius: 32px; font-size: 1.1rem; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 12px; cursor: pointer; box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.5); pointer-events: auto; }
+
+        /* Modals */
+        .modal-backdrop { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px); z-index: 100; align-items: flex-end; justify-content: center; }
+        .modal-backdrop.active { display: flex; animation: fadeInBg 0.3s; }
+        @keyframes fadeInBg { from { opacity: 0; } to { opacity: 1; } }
+        
+        .modal-content { background: var(--card-bg); width: 100%; max-width: 500px; border-radius: 24px 24px 0 0; padding: 30px 24px; animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1); max-height: 90vh; overflow-y: auto; }
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+        .modal-header h2 { font-size: 1.4rem; font-weight: 800; }
+        .btn-close { background: #f4f4f5; border: none; width: 36px; height: 36px; border-radius: 18px; display: flex; align-items: center; justify-content: center; color: #09090b; cursor: pointer; }
+        [data-theme="dark"] .btn-close { background: #27272a; color: #fafafa; }
+
+        .form-group { margin-bottom: 20px; }
+        .form-label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 8px; color: #52525b; }
+        [data-theme="dark"] .form-label { color: #a1a1aa; }
+        .form-input { width: 100%; padding: 16px; border-radius: 12px; border: 1px solid var(--border-color); background: transparent; color: var(--text-color); font-size: 1rem; font-weight: 500; }
+        .form-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); }
+        .btn-submit { width: 100%; background: var(--primary); color: white; border: none; padding: 16px; border-radius: 12px; font-weight: 700; font-size: 1.05rem; cursor: pointer; margin-top: 10px; }
+
+        /* Calculator specific */
+        .calc-header { text-align: center; margin-bottom: 24px; }
+        .calc-price { font-size: 2rem; font-weight: 800; color: var(--primary); }
+        .calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+        .calc-input-wrapper { position: relative; }
+        .calc-input-wrapper span { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #71717a; font-weight: 600; }
+        .calc-input { width: 100%; padding: 16px 16px 16px 40px; border-radius: 12px; border: 2px solid var(--border-color); background: transparent; color: var(--text-color); font-size: 1.2rem; font-weight: 700; }
+        .calc-input:focus { outline: none; border-color: var(--primary); }
+
+        .qr-display { width: 100%; aspect-ratio: 1; border-radius: 16px; object-fit: contain; background: #fff; padding: 16px; border: 1px solid var(--border-color); }
+        .empty-state { text-align: center; padding: 40px 20px; color: #71717a; }
+        .empty-icon { font-size: 3rem; margin-bottom: 16px; opacity: 0.5; }
+        [data-theme="dark"] .empty-state { color: #a1a1aa; }
+
+        /* Update Message UI */
+        .update-box { background: rgba(0,0,0,0.04); padding: 16px; border-radius: 12px; text-align: left; margin-bottom: 24px; font-size: 0.95rem; line-height: 1.6; border: 1px solid var(--border-color); }
+        [data-theme="dark"] .update-box { background: rgba(255,255,255,0.05); }
     </style>
 </head>
 <body>
 
 <div class="app-container">
-    <div class="app-header">
-        <div class="logo-area">
-            <h2>My Fuel Pass</h2>
+    <header class="header">
+        <div>
+            <h1 class="header-title">My Fuel Pass</h1>
+            <div class="version-badge">v<span id="versionDisplay"></span></div>
         </div>
-        <button class="theme-btn liquid-glass" onclick="toggleTheme()" id="themeBtn">
+        <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">
             <i class="fas fa-moon"></i>
         </button>
+    </header>
+
+    <div class="status-widget">
+        <p class="date-text" id="dateDisplay"></p>
+        <h2 class="type-display" id="todayTypeDisplay">--</h2>
+        <p class="info-text" id="todayDigitInfo"></p>
     </div>
 
-    <div class="stats-grid">
-        <div class="hero-card liquid-glass" id="statusCard">
-            <p id="dateDisplay"></p>
-            <h1 id="todayTypeDisplay">--</h1>
-            <p id="todayDigitInfo"></p>
+    <div class="stats-container">
+        <div class="stat-card">
+            <div class="stat-icon icon-blue"><i class="fas fa-gas-pump"></i></div>
+            <span class="stat-label">Total Liters</span>
+            <span class="stat-value" id="totalLitersDisplay">0 L</span>
         </div>
-        
-        <div class="mini-card liquid-glass">
-            <span>TOTAL LITERS</span>
-            <h3 id="totalLitersDisplay">0 L</h3>
-        </div>
-        
-        <div class="mini-card liquid-glass">
-            <span>WEEKLY COST</span>
-            <h3 id="totalCostDisplay">Rs. 0</h3>
+        <div class="stat-card">
+            <div class="stat-icon icon-green"><i class="fas fa-wallet"></i></div>
+            <span class="stat-label">Total Cost</span>
+            <span class="stat-value" id="totalCostDisplay">Rs. 0</span>
         </div>
     </div>
 
-    <div class="section-title">
-        <h4>Your Vehicles</h4>
-        <button onclick="resetExpenses()" style="background:none; border:none; color:var(--danger); font-size:0.75rem; font-weight:700; cursor:pointer;">
-            <i class="fas fa-sync-alt"></i> RESET HISTORY
+    <div class="section-header">
+        <h2>My Vehicles</h2>
+        <button class="reset-btn" onclick="resetExpenses()">
+            <i class="fas fa-rotate-right"></i> Reset All
         </button>
     </div>
 
-    <div id="vehicleList"></div>
+    <div id="vehicleList">
+        </div>
 
-    <button class="fab" onclick="openAddModal()"><i class="fas fa-plus"></i></button>
+    <div class="fab-container">
+        <button class="fab" onclick="openModal('addModal')">
+            <i class="fas fa-plus"></i> Add Vehicle
+        </button>
+    </div>
 </div>
 
-<div class="modal" id="addModal">
-    <div class="modal-content liquid-glass">
-        <h3 style="margin-bottom: 5px; text-align: center;">Add New Vehicle</h3>
+<div class="modal-backdrop" id="addModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Add Vehicle</h2>
+            <button class="btn-close" onclick="closeModals()"><i class="fas fa-times"></i></button>
+        </div>
         <form id="vehicleForm">
-            <label>Vehicle Name</label>
-            <input type="text" id="vName" placeholder="e.g. My Bike" required>
-            
-            <label>Vehicle Number</label>
-            <input type="text" id="vNumber" placeholder="ABC-1234" required>
-            
-            <label>Vehicle Type</label>
-            <select id="vType" required>
-                <option value="" disabled selected>Select Type</option>
-                <option value="25">Motor Cars (25L)</option>
-                <option value="20">Three-Wheelers (20L)</option>
-                <option value="8">Motorcycles (8L)</option>
-                <option value="50">Vans (50L)</option>
-                <option value="100">Buses (100L)</option>
-                <option value="200">Lorries (200L)</option>
-                <option value="40">Land/Special Vehicles (40L)</option>
-                <option value="8">Quadricycle (8L)</option>
-            </select>
-
-            <label>Fuel Type</label>
-            <select id="fType" required>
-                <option value="" disabled selected>Select Fuel</option>
-                <option value="398">Petrol 92 (Rs.398)</option>
-                <option value="455">Petrol 95 (Rs.455)</option>
-                <option value="382">Auto Diesel (Rs.382)</option>
-                <option value="443">Super Diesel (Rs.443)</option>
-            </select>
-
-            <label>QR CODE IMAGE</label>
-            <input type="file" id="vQR" accept="image/*" required style="padding: 10px;">
-
-            <button type="submit" class="btn-log" style="margin-top:25px;">Save Vehicle</button>
-            <button type="button" onclick="closeModals()" style="width:100%; background:none; border:none; margin-top:15px; color:var(--text-muted); font-weight:700; cursor:pointer;">Cancel</button>
+            <div class="form-group">
+                <label class="form-label">Vehicle Name</label>
+                <input type="text" id="vName" class="form-input" placeholder="e.g. My Bike" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Plate Number</label>
+                <input type="text" id="vNumber" class="form-input" placeholder="WP ABC-1234" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Vehicle Type</label>
+                <select id="vType" class="form-input" required>
+                    <option value="" disabled selected>Select Type</option>
+                    <option value="25">Motor Cars (25L)</option>
+                    <option value="20">Three-Wheelers (20L)</option>
+                    <option value="8">Motorcycles (8L)</option>
+                    <option value="50">Vans (50L)</option>
+                    <option value="100">Buses (100L)</option>
+                    <option value="200">Lorries (200L)</option>
+                    <option value="40">Land/Special (40L)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Fuel Type</label>
+                <select id="fType" class="form-input" required>
+                    <option value="" disabled selected>Select Fuel</option>
+                    <option value="398">Petrol 92 (Rs.398)</option>
+                    <option value="455">Petrol 95 (Rs.455)</option>
+                    <option value="382">Auto Diesel (Rs.382)</option>
+                    <option value="443">Super Diesel (Rs.443)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">QR Code Image</label>
+                <input type="file" id="vQR" accept="image/*" class="form-input" style="padding: 12px;" required>
+            </div>
+            <button type="submit" class="btn-submit">Save Vehicle</button>
         </form>
     </div>
 </div>
 
-<div class="modal" id="logModal">
-    <div class="modal-content liquid-glass">
-        <h3 style="text-align: center; margin-bottom: 5px;">Log Fuel Expense</h3>
-        <p style="text-align: center; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px;">Price per Liter: Rs.<span id="logUnitPrice">0</span></p>
-        
-        <div class="calc-grid">
-            <div><label style="margin-top:0; text-align:center;">Liters (L)</label><input type="number" id="inputLiters" step="0.01" placeholder="0"></div>
-            <div><label style="margin-top:0; text-align:center;">Amount (Rs)</label><input type="number" id="inputAmount" step="0.01" placeholder="0"></div>
+<div class="modal-backdrop" id="logModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Log Expense</h2>
+            <button class="btn-close" onclick="closeModals()"><i class="fas fa-times"></i></button>
         </div>
-
-        <button class="btn-log" onclick="saveLog()">Add to Expenses</button>
-        <button onclick="closeModals()" style="width:100%; background:none; border:none; margin-top:15px; color:var(--text-muted); font-weight:700; cursor:pointer;">Cancel</button>
+        <div class="calc-header">
+            <div class="form-label">Price per Liter</div>
+            <div class="calc-price" id="logUnitPrice">0</div>
+        </div>
+        <div class="calc-grid">
+            <div class="calc-input-wrapper">
+                <span>L</span>
+                <input type="number" id="inputLiters" class="calc-input" step="0.01" placeholder="0.00">
+            </div>
+            <div class="calc-input-wrapper">
+                <span>Rs</span>
+                <input type="number" id="inputAmount" class="calc-input" step="0.01" placeholder="0.00">
+            </div>
+        </div>
+        <button class="btn-submit" onclick="saveLog()">Confirm Entry</button>
     </div>
 </div>
 
-<div class="modal" id="qrModal">
-    <div class="modal-content liquid-glass" style="text-align: center;">
-        <h3 id="qrTitle">Vehicle QR</h3>
-        <img id="qrImageFull" src="" class="qr-full-img">
-        <button onclick="closeModals()" class="btn-log">Close</button>
+<div class="modal-backdrop" id="qrModal">
+    <div class="modal-content" style="padding-bottom: 40px;">
+        <div class="modal-header">
+            <h2 id="qrTitle">QR Code</h2>
+            <button class="btn-close" onclick="closeModals()"><i class="fas fa-times"></i></button>
+        </div>
+        <img id="qrImageFull" src="" class="qr-display">
     </div>
 </div>
 
-<div class="modal" id="updateModal">
-    <div class="modal-content liquid-glass" style="text-align: center;">
-        <i class="fas fa-gift update-icon"></i>
-        <h2 style="margin-bottom: 5px; color: var(--primary);">App Updated!</h2>
-        <p style="font-size: 0.85rem; color: var(--text-muted);">අලුත් සංස්කරණය වෙත සාදරයෙන් පිළිගනිමු.</p>
+<div class="modal-backdrop" id="updateModal">
+    <div class="modal-content" style="text-align: center;">
+        <div style="margin-bottom: 16px;">
+            <i class="fas fa-gift" style="font-size: 3.5rem; color: var(--primary);"></i>
+        </div>
+        <h2 style="font-size: 1.6rem; font-weight: 800; margin-bottom: 8px;">App Updated!</h2>
+        <p style="color: #71717a; font-size: 0.95rem; margin-bottom: 24px;">අලුත් සංස්කරණය වෙත සාදරයෙන් පිළිගනිමු.</p>
         
-        <div class="update-content" id="updateMessageContent">
+        <div class="update-box" id="updateMessageContent">
             </div>
 
-        <button onclick="closeUpdateModal()" class="btn-log">Okay, Got it!</button>
+        <button onclick="closeUpdateModal()" class="btn-submit">Awesome, Got it!</button>
     </div>
 </div>
 
 <script>
     // ==========================================
-    // UPDATE SYSTEM - (මෙහි වෙනස්කම් කරන්න)
+    // UPDATE SYSTEM & VERSION CONFIGURATION
     // ==========================================
     
-    // 1. අලුත් Update එකක් දාන සෑම වෙලාවකම මේ අංකය වෙනස් කරන්න (උදා: 1.1, 1.2, 2.0)
-    const APP_VERSION = "1.0"; 
+    // 1. App Version Number (මෙය වෙනස් කළ විට Popup එක පෙන්වයි)
+    const APP_VERSION = "1.1"; 
 
-    // 2. අලුත් Update එකේ විස්තරය මෙතන ලියන්න (HTML Tags පාවිච්චි කරන්න පුළුවන්)
+    // 2. අලුත් Update එකේ විස්තරය
     const UPDATE_MESSAGE = `
-        <strong>අලුත් සංස්කරණය (v1.0)</strong><br><br>
-        ✅ අලුත්ම Liquid Glass පෙනුම.<br>
-        ✅ ඉන්ධන වියදම් පහසුවෙන් ගණනය කිරීමේ පහසුකම.<br>
-        ✅ Update Notifications එකතු කිරීම.
+        <strong>අලුත් සංස්කරණය (v1.1)</strong><br><br>
+        ✅ අලුත්ම <strong>Neo-Brutalism & Modern</strong> පෙනුම.<br>
+        ✅ එක් එක් වාහනයට වෙන වෙනම ඉන්ධන සහ වියදම් බලාගැනීමේ පහසුකම.<br>
+        ✅ App එකේ ඉහළින්ම Version අංකය දිස්වීම.<br>
+        ✅ Update Notifications නැවත එක් කිරීම.
     `;
 
     // ==========================================
 
-    let vehicles = JSON.parse(localStorage.getItem('fuelPass_v4_vehicles')) || [];
-    let totalLiters = parseFloat(localStorage.getItem('fuelPass_v4_liters')) || 0;
-    let totalCost = parseFloat(localStorage.getItem('fuelPass_v4_cost')) || 0;
-    let lastResetDate = localStorage.getItem('fuelPass_v4_lastReset') || "";
+    let vehicles = JSON.parse(localStorage.getItem('fuelPass_v5_vehicles')) || [];
+    let lastResetDate = localStorage.getItem('fuelPass_v5_lastReset') || "";
+    let currentLogVehicleId = null;
     let currentLogPrice = 0;
 
     function init() {
+        // Display Version
+        document.getElementById('versionDisplay').innerText = APP_VERSION;
+        
         applyTheme();
-        checkUpdates(); // Update එකක් ඇවිත්දැයි පරීක්ෂා කිරීම
+        checkUpdates();
         checkWeeklyReset();
-        updateStatus();
-        render();
+        updateUI();
         setupCalculator();
     }
 
-    // Update Checker Function
+    // --- Update Logic ---
     function checkUpdates() {
-        const savedVersion = localStorage.getItem('fuelPassCurrentVersion');
+        // Check local storage to see if the user has seen this version
+        const savedVersion = localStorage.getItem('fuelPassCurrentVersion_Neo');
         
-        // ෆෝන් එකේ තියෙන Version එකයි, කේතයේ තියෙන Version එකයි අසමාන නම් (අලුත් එකක් නම්)
         if (savedVersion !== APP_VERSION) {
             document.getElementById('updateMessageContent').innerHTML = UPDATE_MESSAGE;
-            document.getElementById('updateModal').classList.add('active');
+            // Delay modal slightly so it doesn't instantly flash on load
+            setTimeout(() => {
+                openModal('updateModal');
+            }, 600);
         }
     }
 
     function closeUpdateModal() {
-        // අලුත් Version අංකය ෆෝන් එකේ Save කිරීම
-        localStorage.setItem('fuelPassCurrentVersion', APP_VERSION);
-        document.getElementById('updateModal').classList.remove('active');
+        localStorage.setItem('fuelPassCurrentVersion_Neo', APP_VERSION);
+        closeModals();
     }
-
-    // --- (පහතින් ඇත්තේ පෙර තිබූ සාමාන්‍ය කේතයන්ය) ---
+    // -------------------
 
     function applyTheme() {
-        const theme = localStorage.getItem('fuelTheme_v4') || 'light';
+        const theme = localStorage.getItem('fuelTheme_v5') || 'light';
         document.body.setAttribute('data-theme', theme);
         document.getElementById('themeBtn').innerHTML = theme === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
     }
@@ -279,7 +355,7 @@
     function toggleTheme() {
         const theme = document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
         document.body.setAttribute('data-theme', theme);
-        localStorage.setItem('fuelTheme_v4', theme);
+        localStorage.setItem('fuelTheme_v5', theme);
         applyTheme();
     }
 
@@ -287,22 +363,34 @@
         const now = new Date();
         const today = now.toLocaleDateString();
         if (now.getDay() === 6 && lastResetDate !== today) {
-            totalLiters = 0; totalCost = 0; lastResetDate = today;
+            vehicles.forEach(v => { v.spentLiters = 0; v.spentCost = 0; });
+            lastResetDate = today;
             saveData();
         }
     }
 
-    function updateStatus() {
+    function updateUI() {
         const today = new Date();
         document.getElementById('dateDisplay').innerText = today.toLocaleDateString('si-LK', { weekday:'long', month:'long', day:'numeric' });
         
         const isEven = (today.getDate() % 2 === 0);
-        document.getElementById('todayTypeDisplay').innerText = isEven ? "ඉරට්ටේ (EVEN)" : "ඔත්තේ (ODD)";
-        document.getElementById('todayTypeDisplay').style.color = isEven ? "var(--success)" : "var(--primary-light)";
-        document.getElementById('todayDigitInfo').innerText = isEven ? "අවසාන අංකය 0, 2, 4, 6, 8 සඳහා පමණයි" : "අවසාන අංකය 1, 3, 5, 7, 9 සඳහා පමණයි";
+        const typeDisplay = document.getElementById('todayTypeDisplay');
+        typeDisplay.innerText = isEven ? "EVEN" : "ODD";
+        typeDisplay.style.color = isEven ? "var(--secondary)" : "var(--primary)";
+        document.getElementById('todayDigitInfo').innerText = isEven ? "Allowed: 0, 2, 4, 6, 8" : "Allowed: 1, 3, 5, 7, 9";
         
-        document.getElementById('totalLitersDisplay').innerText = totalLiters.toFixed(1) + " L";
-        document.getElementById('totalCostDisplay').innerText = "Rs. " + totalCost.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        renderVehicles();
+        updateGlobalStats();
+    }
+
+    function updateGlobalStats() {
+        let tLiters = 0, tCost = 0;
+        vehicles.forEach(v => {
+            tLiters += (v.spentLiters || 0);
+            tCost += (v.spentCost || 0);
+        });
+        document.getElementById('totalLitersDisplay').innerText = tLiters.toFixed(1) + " L";
+        document.getElementById('totalCostDisplay').innerText = "Rs. " + tCost.toLocaleString(undefined, {minimumFractionDigits: 0});
     }
 
     function setupCalculator() {
@@ -320,20 +408,28 @@
         });
     }
 
-    function openLogModal(price) {
+    function openLogModal(id, price) {
+        currentLogVehicleId = id;
         currentLogPrice = price;
-        document.getElementById('logUnitPrice').innerText = price;
+        document.getElementById('logUnitPrice').innerText = "Rs. " + price;
         document.getElementById('inputLiters').value = '';
         document.getElementById('inputAmount').value = '';
-        document.getElementById('logModal').classList.add('active');
+        openModal('logModal');
     }
 
     function saveLog() {
         const l = parseFloat(document.getElementById('inputLiters').value);
         const rs = parseFloat(document.getElementById('inputAmount').value);
         if(l > 0 && rs > 0) {
-            totalLiters += l; totalCost += rs; saveData(); updateStatus(); closeModals();
-        } else { alert("කරුණාකර අගයක් ඇතුලත් කරන්න."); }
+            const vIndex = vehicles.findIndex(v => v.id === currentLogVehicleId);
+            if(vIndex > -1) {
+                vehicles[vIndex].spentLiters = (vehicles[vIndex].spentLiters || 0) + l;
+                vehicles[vIndex].spentCost = (vehicles[vIndex].spentCost || 0) + rs;
+                saveData();
+                updateUI();
+                closeModals();
+            }
+        }
     }
 
     document.getElementById('vehicleForm').onsubmit = function(e) {
@@ -353,43 +449,73 @@
                 typeName: document.getElementById('vType').options[document.getElementById('vType').selectedIndex].text.split('(')[0],
                 fuelName: document.getElementById('fType').options[document.getElementById('fType').selectedIndex].text.split('(')[0],
                 lastDigit: match ? parseInt(match[match.length - 1]) : 0,
-                qr: event.target.result
+                qr: event.target.result,
+                spentLiters: 0,
+                spentCost: 0
             };
-            vehicles.push(newV); saveData(); closeModals(); render(); document.getElementById('vehicleForm').reset();
+            vehicles.push(newV); saveData(); closeModals(); updateUI(); document.getElementById('vehicleForm').reset();
         };
         reader.readAsDataURL(file);
     };
 
-    function render() {
+    function renderVehicles() {
         const list = document.getElementById('vehicleList');
-        list.innerHTML = vehicles.length ? '' : '<div style="text-align:center; padding:40px; color:var(--text-muted); font-weight:600;">වාහන කිසිවක් ඇතුලත් කර නැත.</div>';
+        if(!vehicles.length) {
+            list.innerHTML = `
+                <div class="empty-state">
+                    <i class="fas fa-car empty-icon"></i>
+                    <h3>No vehicles yet</h3>
+                    <p>Tap the + button to add your first vehicle.</p>
+                </div>`;
+            return;
+        }
+
+        list.innerHTML = '';
         const isEvenDay = (new Date().getDate() % 2 === 0);
 
         vehicles.forEach(v => {
             const isAllowed = (v.lastDigit % 2 === 0) === isEvenDay;
+            const spentL = v.spentLiters || 0;
+            const spentC = v.spentCost || 0;
+
             const card = document.createElement('div');
-            card.className = 'vehicle-card liquid-glass';
+            card.className = 'vehicle-card';
             card.innerHTML = `
-                <div class="v-header">
-                    <div class="v-title">
+                <div class="vc-header">
+                    <div class="vc-info">
                         <h3>${v.name}</h3>
-                        <p>${v.number}</p>
+                        <div class="vc-plate">${v.number}</div>
                     </div>
-                    <img src="${v.qr}" class="v-qr-thumb" onclick="viewQR('${v.name}', '${v.qr}')" title="Click to View QR">
+                    <img src="${v.qr}" class="vc-qr" onclick="viewQR('${v.name}', '${v.qr}')">
                 </div>
-                <div class="v-badge ${isAllowed ? 'badge-allow' : 'badge-deny'}">
-                    <i class="fas ${isAllowed ? 'fa-check-circle' : 'fa-times-circle'}"></i>
-                    ${isAllowed ? 'අද දින ඉන්ධන ලබාගත හැක' : 'අද දින ලබාගත නොහැක'}
-                </div>
-                <div class="v-details">
-                    <div class="detail-item"><span>TYPE / QUOTA</span><b>${v.typeName} (${v.quota}L)</b></div>
-                    <div class="detail-item"><span>FUEL PRICE</span><b>${v.fuelName}</b></div>
-                </div>
-                <button class="btn-log" ${!isAllowed ? 'disabled' : ''} onclick="openLogModal(${v.price})">
-                    <i class="fas fa-gas-pump"></i> ලීටර් හෝ මුදල ඇතුලත් කරන්න
-                </button>
-                <div style="text-align:right; margin-top:12px;">
-                    <i class="fas fa-trash-alt" style="color:var(--danger); cursor:pointer; font-size:0.85rem;" onclick="deleteV(${v.id})"> Remove Vehicle</i>
+                <div class="vc-body">
+                    <div class="status-badge ${isAllowed ? 'status-allowed' : 'status-denied'}">
+                        <i class="fas ${isAllowed ? 'fa-check-circle' : 'fa-times-circle'}"></i>
+                        ${isAllowed ? 'Authorized Today' : 'Not Authorized Today'}
+                    </div>
+                    
+                    <div class="specs-grid">
+                        <div class="spec-item"><span class="spec-label">Type (Quota)</span><span class="spec-val">${v.typeName} (${v.quota}L)</span></div>
+                        <div class="spec-item"><span class="spec-label">Fuel</span><span class="spec-val">${v.fuelName}</span></div>
+                    </div>
+
+                    <div class="vehicle-stats">
+                        <div class="v-stat">
+                            <div class="v-stat-label">Claimed (L)</div>
+                            <div class="v-stat-val">${spentL.toFixed(1)}</div>
+                        </div>
+                        <div class="v-stat">
+                            <div class="v-stat-label">Spent (Rs)</div>
+                            <div class="v-stat-val">${spentC.toLocaleString()}</div>
+                        </div>
+                    </div>
+
+                    <div class="vc-actions">
+                        <button class="btn-primary" ${!isAllowed ? 'disabled' : ''} onclick="openLogModal(${v.id}, ${v.price})">
+                            <i class="fas fa-pen-to-square"></i> Log Fuel
+                        </button>
+                        <button class="btn-icon" onclick="deleteV(${v.id})"><i class="fas fa-trash"></i></button>
+                    </div>
                 </div>
             `;
             list.appendChild(card);
@@ -399,21 +525,31 @@
     function viewQR(name, qrSrc) {
         document.getElementById('qrTitle').innerText = name;
         document.getElementById('qrImageFull').src = qrSrc;
-        document.getElementById('qrModal').classList.add('active');
+        openModal('qrModal');
     }
 
     function saveData() {
-        localStorage.setItem('fuelPass_v4_vehicles', JSON.stringify(vehicles));
-        localStorage.setItem('fuelPass_v4_liters', totalLiters);
-        localStorage.setItem('fuelPass_v4_cost', totalCost);
-        localStorage.setItem('fuelPass_v4_lastReset', lastResetDate);
+        localStorage.setItem('fuelPass_v5_vehicles', JSON.stringify(vehicles));
+        localStorage.setItem('fuelPass_v5_lastReset', lastResetDate);
     }
 
-    function deleteV(id) { if(confirm("මෙම වාහනය ඉවත් කරන්නද?")) { vehicles = vehicles.filter(v => v.id !== id); saveData(); render(); } }
-    function resetExpenses() { if(confirm("සියලුම වියදම් ඉතිහාසය මකා දමන්නද?")) { totalLiters = 0; totalCost = 0; saveData(); updateStatus(); } }
+    function deleteV(id) { if(confirm("Remove this vehicle?")) { vehicles = vehicles.filter(v => v.id !== id); saveData(); updateUI(); } }
     
-    function openAddModal() { document.getElementById('addModal').classList.add('active'); }
-    function closeModals() { document.querySelectorAll('.modal').forEach(m => m.classList.remove('active')); }
+    function resetExpenses() { 
+        if(confirm("Clear history for ALL vehicles?")) { 
+            vehicles.forEach(v => { v.spentLiters = 0; v.spentCost = 0; });
+            saveData(); updateUI(); 
+        } 
+    }
+    
+    function openModal(id) { document.getElementById(id).classList.add('active'); }
+    function closeModals() { document.querySelectorAll('.modal-backdrop').forEach(m => m.classList.remove('active')); }
+
+    window.onclick = function(event) {
+        if (event.target.classList.contains('modal-backdrop')) {
+            closeModals();
+        }
+    }
 
     init();
 </script>
