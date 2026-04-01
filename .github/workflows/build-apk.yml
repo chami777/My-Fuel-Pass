@@ -1,4 +1,4 @@
-name: Build Android APK
+name: Build Android APK (Online + Offline)
 
 on:
   push:
@@ -31,11 +31,12 @@ jobs:
         run: |
           mkdir www
           cp *.html www/ 
+          cp sw.js www/ || true
+          cp icon.png www/ || true
 
-      - name: Install Capacitor & Setup Live Update
+      - name: Install Capacitor & Setup Live URL
         run: |
           npm init -y
-          # මෙහිදී @capacitor/assets අලුතින් එක් කර ඇත
           npm install @capacitor/cli @capacitor/core @capacitor/android @capacitor/assets
           npx cap init "My Fuel Pass" "com.myfuelpass.app" --web-dir www
           
@@ -56,13 +57,12 @@ jobs:
 
       - name: Generate App Icon
         run: |
-          # icon.png පින්තූරය ඇත්නම් එයින් App Icon සෑදීම
           mkdir -p assets
           if [ -f "icon.png" ]; then
             cp icon.png assets/icon.png
             npx capacitor-assets generate --android
           else
-            echo "icon.png එක සොයාගත නොහැක. Default Icon එක භාවිතා වේ."
+            echo "icon.png එක සොයාගත නොහැක."
           fi
 
       - name: Fix Kotlin Duplicate Classes
@@ -88,5 +88,5 @@ jobs:
       - name: Upload APK File
         uses: actions/upload-artifact@v4
         with:
-          name: My-Fuel-Pass-APK-Live
+          name: My-Fuel-Pass-APK-Hybrid
           path: android/app/build/outputs/apk/debug/app-debug.apk
