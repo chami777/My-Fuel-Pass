@@ -3,139 +3,168 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>My Fuel Pass - Sinhala</title>
+    <title>My Fuel Pass - Premium</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #f4f4f5;
-            --text-color: #09090b;
+            --bg-color: #f8fafc;
+            --text-color: #0f172a;
             --card-bg: #ffffff;
-            --primary: #3b82f6;
-            --secondary: #10b981;
+            --primary: #4f46e5;
+            --primary-light: #e0e7ff;
+            --secondary: #0ea5e9;
+            --success: #10b981;
             --danger: #ef4444;
             --warning: #f59e0b;
-            --border-color: #e4e4e7;
-            --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
-            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
-            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
-            --radius-lg: 24px;
-            --radius-md: 16px;
+            --border-color: #e2e8f0;
+            --shadow-sm: 0 4px 6px -1px rgba(0,0,0,0.05);
+            --shadow-md: 0 10px 15px -3px rgba(0,0,0,0.08);
+            --shadow-lg: 0 20px 25px -5px rgba(0,0,0,0.1);
+            --radius-lg: 28px;
+            --radius-md: 20px;
         }
 
         [data-theme="dark"] {
-            --bg-color: #09090b;
-            --text-color: #fafafa;
-            --card-bg: #18181b;
-            --primary: #60a5fa;
-            --secondary: #34d399;
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --card-bg: #1e293b;
+            --primary: #6366f1;
+            --primary-light: #312e81;
+            --secondary: #38bdf8;
+            --success: #34d399;
             --danger: #f87171;
             --warning: #fbbf24;
-            --border-color: #27272a;
-            --shadow-sm: 0 2px 4px rgba(0,0,0,0.2);
-            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.3);
-            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.4);
+            --border-color: #334155;
+            --shadow-sm: 0 4px 6px -1px rgba(0,0,0,0.3);
+            --shadow-md: 0 10px 15px -3px rgba(0,0,0,0.4);
+            --shadow-lg: 0 20px 25px -5px rgba(0,0,0,0.5);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', -apple-system, sans-serif; -webkit-tap-highlight-color: transparent; transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', -apple-system, sans-serif; -webkit-tap-highlight-color: transparent; transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease; }
         
         body { background-color: var(--bg-color); color: var(--text-color); min-height: 100vh; display: flex; justify-content: center; overflow-x: hidden; }
 
-        .app-container { width: 100%; max-width: 480px; padding: 20px; padding-bottom: 120px; position: relative; }
+        .app-container { width: 100%; max-width: 500px; padding: 24px 20px; padding-bottom: 120px; position: relative; }
 
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; position: relative; z-index: 10; }
-        .header-title { font-size: 1.75rem; font-weight: 800; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1.1; }
-        .version-badge { font-size: 0.75rem; font-weight: 700; color: var(--primary); background: rgba(59, 130, 246, 0.1); padding: 2px 8px; border-radius: 10px; display: inline-block; margin-top: 4px; }
-        .theme-toggle { background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-color); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; cursor: pointer; box-shadow: var(--shadow-sm); }
+        /* Header & Version */
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; position: relative; z-index: 10; }
+        .header-title { font-size: 1.8rem; font-weight: 800; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1.1; }
+        .version-badge { font-size: 0.75rem; font-weight: 700; color: var(--primary); background: var(--primary-light); padding: 4px 10px; border-radius: 12px; display: inline-block; margin-top: 6px; }
+        .theme-toggle { background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-color); width: 48px; height: 48px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; cursor: pointer; box-shadow: var(--shadow-sm); }
 
-        .status-widget { background: var(--card-bg); border-radius: var(--radius-lg); padding: 24px; text-align: center; margin-bottom: 24px; border: 1px solid var(--border-color); box-shadow: var(--shadow-md); position: relative; overflow: hidden; }
-        .status-widget::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, var(--primary), var(--secondary)); }
-        .date-text { font-size: 0.9rem; color: #71717a; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
-        .type-display { font-size: 3rem; font-weight: 900; line-height: 1; margin-bottom: 8px; letter-spacing: -1px; }
-        .info-text { font-size: 0.95rem; font-weight: 500; color: #52525b; }
-        [data-theme="dark"] .date-text, [data-theme="dark"] .info-text { color: #a1a1aa; }
+        /* Status Widget */
+        .status-widget { background: linear-gradient(135deg, var(--card-bg), var(--bg-color)); border-radius: var(--radius-lg); padding: 28px; text-align: center; margin-bottom: 24px; border: 1px solid var(--border-color); box-shadow: var(--shadow-md); position: relative; overflow: hidden; }
+        .status-widget::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px; background: linear-gradient(90deg, var(--primary), var(--secondary)); }
+        .date-text { font-size: 0.9rem; color: #64748b; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+        .type-display { font-size: 3.2rem; font-weight: 900; line-height: 1; margin-bottom: 10px; letter-spacing: -1px; }
+        .info-text { font-size: 0.95rem; font-weight: 600; color: #475569; background: rgba(0,0,0,0.04); display: inline-block; padding: 6px 16px; border-radius: 20px; }
+        [data-theme="dark"] .date-text { color: #94a3b8; }
+        [data-theme="dark"] .info-text { color: #cbd5e1; background: rgba(255,255,255,0.05); }
 
-        .stats-container { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 30px; }
-        .stat-card { background: var(--card-bg); padding: 20px; border-radius: var(--radius-md); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); display: flex; flex-direction: column; align-items: flex-start; }
-        .stat-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; margin-bottom: 12px; }
-        .icon-blue { background: rgba(59, 130, 246, 0.1); color: var(--primary); }
-        .icon-green { background: rgba(16, 185, 129, 0.1); color: var(--secondary); }
-        .stat-label { font-size: 0.8rem; font-weight: 600; color: #71717a; text-transform: uppercase; margin-bottom: 4px; }
-        [data-theme="dark"] .stat-label { color: #a1a1aa; }
-        .stat-value { font-size: 1.5rem; font-weight: 800; }
+        /* Summary Stats */
+        .stats-container { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 36px; }
+        .stat-card { background: var(--card-bg); padding: 20px; border-radius: var(--radius-md); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); display: flex; flex-direction: column; align-items: flex-start; position: relative; overflow: hidden; }
+        .stat-icon { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; margin-bottom: 12px; }
+        .icon-blue { background: rgba(79, 70, 229, 0.1); color: var(--primary); }
+        .icon-green { background: rgba(16, 185, 129, 0.1); color: var(--success); }
+        .stat-label { font-size: 0.8rem; font-weight: 700; color: #64748b; text-transform: uppercase; margin-bottom: 6px; }
+        [data-theme="dark"] .stat-label { color: #94a3b8; }
+        .stat-value { font-size: 1.6rem; font-weight: 800; }
 
-        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
-        .section-header h2 { font-size: 1.2rem; font-weight: 700; }
-        .reset-btn { background: none; border: none; color: var(--danger); font-size: 0.85rem; font-weight: 600; display: flex; align-items: center; gap: 6px; cursor: pointer; padding: 6px 12px; border-radius: 20px; background: rgba(239, 68, 68, 0.1); }
+        /* Section Header */
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .section-header h2 { font-size: 1.3rem; font-weight: 800; }
+        .reset-btn { background: rgba(239, 68, 68, 0.1); border: none; color: var(--danger); font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; gap: 6px; cursor: pointer; padding: 8px 16px; border-radius: 20px; transition: all 0.2s; }
+        .reset-btn:active { transform: scale(0.95); }
 
-        .vehicle-card { background: var(--card-bg); border-radius: var(--radius-lg); border: 1px solid var(--border-color); margin-bottom: 20px; box-shadow: var(--shadow-md); overflow: hidden; animation: fadeInUp 0.4s ease-out; }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        /* Vehicle Cards */
+        .vehicle-card { background: var(--card-bg); border-radius: var(--radius-lg); border: 1px solid var(--border-color); margin-bottom: 24px; box-shadow: var(--shadow-md); overflow: hidden; animation: fadeInUp 0.4s ease-out; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         
-        .vc-header { padding: 20px; display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid var(--border-color); }
-        .vc-info h3 { font-size: 1.3rem; font-weight: 800; margin-bottom: 4px; }
-        .vc-plate { display: inline-block; background: #fbbf24; color: #000; padding: 4px 10px; border-radius: 6px; font-weight: 700; font-family: monospace; font-size: 0.9rem; border: 2px solid #000; box-shadow: 2px 2px 0 #000; }
-        .vc-qr { width: 64px; height: 64px; border-radius: 12px; border: 1px solid var(--border-color); object-fit: cover; cursor: pointer; box-shadow: var(--shadow-sm); }
+        .vc-header { padding: 20px 24px; display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid var(--border-color); background: rgba(0,0,0,0.01); }
+        [data-theme="dark"] .vc-header { background: rgba(255,255,255,0.02); }
+        .vc-info h3 { font-size: 1.4rem; font-weight: 800; margin-bottom: 6px; }
+        .vc-plate { display: inline-block; background: #fbbf24; color: #000; padding: 4px 12px; border-radius: 8px; font-weight: 800; font-family: monospace; font-size: 1rem; border: 2px solid #000; box-shadow: 2px 2px 0 #000; letter-spacing: 1px; }
+        .vc-qr { width: 68px; height: 68px; border-radius: 14px; border: 2px solid var(--border-color); object-fit: cover; cursor: pointer; box-shadow: var(--shadow-sm); padding: 2px; background: #fff; }
         
-        .vc-body { padding: 20px; }
-        .status-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 20px; font-weight: 600; font-size: 0.85rem; margin-bottom: 16px; width: 100%; justify-content: center; }
-        .status-allowed { background: rgba(16, 185, 129, 0.1); color: var(--secondary); border: 1px solid rgba(16, 185, 129, 0.2); }
+        .vc-body { padding: 24px; }
+        
+        /* Progress Bar (NEW) */
+        .quota-section { margin-bottom: 20px; }
+        .quota-header { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.85rem; font-weight: 700; }
+        .quota-label { color: #64748b; text-transform: uppercase; }
+        [data-theme="dark"] .quota-label { color: #94a3b8; }
+        .quota-text { color: var(--primary); font-size: 0.95rem; }
+        
+        .progress-bg { width: 100%; height: 12px; background: var(--border-color); border-radius: 10px; overflow: hidden; position: relative; }
+        .progress-fill { height: 100%; border-radius: 10px; transition: width 0.5s ease; }
+        /* Green if > 50%, Warning if > 20%, Danger if <= 20% */
+        .fill-good { background: linear-gradient(90deg, #10b981, #34d399); }
+        .fill-warn { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+        .fill-danger { background: linear-gradient(90deg, #ef4444, #f87171); }
+
+        .status-badge { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 12px; font-weight: 700; font-size: 0.85rem; margin-bottom: 20px; width: 100%; justify-content: center; }
+        .status-allowed { background: rgba(16, 185, 129, 0.1); color: var(--success); border: 1px solid rgba(16, 185, 129, 0.2); }
         .status-denied { background: rgba(239, 68, 68, 0.1); color: var(--danger); border: 1px solid rgba(239, 68, 68, 0.2); }
 
-        .specs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
-        .spec-item { display: flex; flex-direction: column; }
-        .spec-label { font-size: 0.75rem; color: #71717a; font-weight: 600; text-transform: uppercase; }
-        [data-theme="dark"] .spec-label { color: #a1a1aa; }
-        .spec-val { font-size: 0.95rem; font-weight: 700; }
-
-        .vehicle-stats { background: rgba(0,0,0,0.03); border-radius: 12px; padding: 12px; margin-bottom: 16px; display: flex; justify-content: space-between; border: 1px solid var(--border-color); }
-        [data-theme="dark"] .vehicle-stats { background: rgba(255,255,255,0.03); }
-        .v-stat { text-align: center; flex: 1; }
+        /* Individual Vehicle Stats */
+        .vehicle-stats { background: var(--bg-color); border-radius: 16px; padding: 16px; margin-bottom: 20px; display: flex; justify-content: space-between; border: 1px solid var(--border-color); }
+        .v-stat { text-align: center; flex: 1; display: flex; flex-direction: column; gap: 4px; }
         .v-stat:first-child { border-right: 1px solid var(--border-color); }
-        .v-stat-label { font-size: 0.7rem; font-weight: 700; color: #71717a; text-transform: uppercase; }
-        [data-theme="dark"] .v-stat-label { color: #a1a1aa; }
-        .v-stat-val { font-size: 1.1rem; font-weight: 800; color: var(--primary); }
+        .v-stat-label { font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; }
+        [data-theme="dark"] .v-stat-label { color: #94a3b8; }
+        .v-stat-val { font-size: 1.2rem; font-weight: 800; color: var(--text-color); }
 
-        .vc-actions { display: flex; gap: 10px; }
-        .btn-primary { flex: 1; background: var(--text-color); color: var(--bg-color); border: none; padding: 14px; border-radius: 12px; font-weight: 700; font-size: 0.95rem; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; box-shadow: var(--shadow-sm); }
-        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
-        .btn-icon { width: 48px; height: 48px; border-radius: 12px; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--danger); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.1rem; box-shadow: var(--shadow-sm); }
+        .vc-actions { display: flex; gap: 12px; }
+        .btn-primary { flex: 1; background: var(--primary); color: white; border: none; padding: 16px; border-radius: 14px; font-weight: 700; font-size: 1rem; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3); transition: transform 0.2s; }
+        .btn-primary:active { transform: scale(0.98); }
+        .btn-primary:disabled { background: var(--border-color); color: #94a3b8; box-shadow: none; cursor: not-allowed; }
+        .btn-icon { width: 52px; height: 52px; border-radius: 14px; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--danger); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.2rem; transition: background 0.2s; }
+        .btn-icon:hover { background: rgba(239, 68, 68, 0.1); }
 
+        /* FAB */
         .fab-container { position: fixed; bottom: 30px; left: 0; right: 0; display: flex; justify-content: center; pointer-events: none; z-index: 50; }
-        .fab { background: var(--primary); color: white; border: none; height: 64px; padding: 0 32px; border-radius: 32px; font-size: 1.1rem; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 12px; cursor: pointer; box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.5); pointer-events: auto; }
+        .fab { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; border: none; height: 64px; padding: 0 32px; border-radius: 32px; font-size: 1.1rem; font-weight: 800; display: flex; align-items: center; justify-content: center; gap: 12px; cursor: pointer; box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.5); pointer-events: auto; }
 
-        .modal-backdrop { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px); z-index: 100; align-items: flex-end; justify-content: center; }
+        /* Modals */
+        .modal-backdrop { display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: 100; align-items: flex-end; justify-content: center; }
         .modal-backdrop.active { display: flex; animation: fadeInBg 0.3s; }
         @keyframes fadeInBg { from { opacity: 0; } to { opacity: 1; } }
         
-        .modal-content { background: var(--card-bg); width: 100%; max-width: 500px; border-radius: 24px 24px 0 0; padding: 30px 24px; animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1); max-height: 90vh; overflow-y: auto; }
+        .modal-content { background: var(--card-bg); width: 100%; max-width: 500px; border-radius: 28px 28px 0 0; padding: 32px 24px; animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1); max-height: 90vh; overflow-y: auto; box-shadow: 0 -10px 40px rgba(0,0,0,0.2); }
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
 
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
-        .modal-header h2 { font-size: 1.4rem; font-weight: 800; }
-        .btn-close { background: #f4f4f5; border: none; width: 36px; height: 36px; border-radius: 18px; display: flex; align-items: center; justify-content: center; color: #09090b; cursor: pointer; }
-        [data-theme="dark"] .btn-close { background: #27272a; color: #fafafa; }
+        .modal-header h2 { font-size: 1.5rem; font-weight: 800; }
+        .btn-close { background: var(--bg-color); border: none; width: 40px; height: 40px; border-radius: 20px; display: flex; align-items: center; justify-content: center; color: var(--text-color); cursor: pointer; font-size: 1.1rem; }
 
         .form-group { margin-bottom: 20px; }
-        .form-label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 8px; color: #52525b; }
-        [data-theme="dark"] .form-label { color: #a1a1aa; }
-        .form-input { width: 100%; padding: 16px; border-radius: 12px; border: 1px solid var(--border-color); background: transparent; color: var(--text-color); font-size: 1rem; font-weight: 500; }
-        .form-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); }
-        .btn-submit { width: 100%; background: var(--primary); color: white; border: none; padding: 16px; border-radius: 12px; font-weight: 700; font-size: 1.05rem; cursor: pointer; margin-top: 10px; }
+        .form-label { display: block; font-size: 0.85rem; font-weight: 700; margin-bottom: 8px; color: #475569; }
+        [data-theme="dark"] .form-label { color: #cbd5e1; }
+        .form-input { width: 100%; padding: 16px; border-radius: 14px; border: 2px solid var(--border-color); background: var(--bg-color); color: var(--text-color); font-size: 1rem; font-weight: 600; }
+        .form-input:focus { outline: none; border-color: var(--primary); background: transparent; }
+        .btn-submit { width: 100%; background: var(--primary); color: white; border: none; padding: 18px; border-radius: 14px; font-weight: 800; font-size: 1.1rem; cursor: pointer; margin-top: 10px; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3); }
 
-        .calc-header { text-align: center; margin-bottom: 24px; }
-        .calc-price { font-size: 2rem; font-weight: 800; color: var(--primary); }
+        .calc-header { text-align: center; margin-bottom: 24px; background: var(--bg-color); padding: 16px; border-radius: 16px; }
+        .calc-price { font-size: 2.2rem; font-weight: 900; color: var(--primary); }
         .calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
         .calc-input-wrapper { position: relative; }
-        .calc-input-wrapper span { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #71717a; font-weight: 600; }
-        .calc-input { width: 100%; padding: 16px 16px 16px 40px; border-radius: 12px; border: 2px solid var(--border-color); background: transparent; color: var(--text-color); font-size: 1.2rem; font-weight: 700; }
-        .calc-input:focus { outline: none; border-color: var(--primary); }
+        .calc-input-wrapper span { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #64748b; font-weight: 700; }
+        .calc-input { width: 100%; padding: 16px 16px 16px 44px; border-radius: 14px; border: 2px solid var(--border-color); background: var(--bg-color); color: var(--text-color); font-size: 1.3rem; font-weight: 800; }
+        .calc-input:focus { outline: none; border-color: var(--primary); background: transparent; }
 
-        .qr-display { width: 100%; aspect-ratio: 1; border-radius: 16px; object-fit: contain; background: #fff; padding: 16px; border: 1px solid var(--border-color); }
-        .empty-state { text-align: center; padding: 40px 20px; color: #71717a; }
-        .empty-icon { font-size: 3rem; margin-bottom: 16px; opacity: 0.5; }
-        [data-theme="dark"] .empty-state { color: #a1a1aa; }
+        .qr-display { width: 100%; aspect-ratio: 1; border-radius: 20px; object-fit: contain; background: #fff; padding: 20px; border: 2px solid var(--border-color); }
+        .empty-state { text-align: center; padding: 40px 20px; color: #64748b; }
+        .empty-icon { font-size: 3.5rem; margin-bottom: 16px; opacity: 0.4; color: var(--primary); }
+        [data-theme="dark"] .empty-state { color: #94a3b8; }
 
-        .msg-box { background: rgba(0,0,0,0.04); padding: 16px; border-radius: 12px; text-align: left; margin-bottom: 24px; font-size: 0.95rem; line-height: 1.6; border: 1px solid var(--border-color); }
-        [data-theme="dark"] .msg-box { background: rgba(255,255,255,0.05); }
+        .msg-box { background: rgba(0,0,0,0.03); padding: 20px; border-radius: 16px; text-align: left; margin-bottom: 24px; font-size: 0.95rem; line-height: 1.6; border: 1px solid var(--border-color); font-weight: 500; }
+        [data-theme="dark"] .msg-box { background: rgba(255,255,255,0.03); }
+
+        /* Developer Footer */
+        .dev-footer { text-align: center; padding: 20px; margin-top: 20px; font-size: 0.8rem; font-weight: 600; color: #64748b; border-top: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 4px; }
+        .dev-footer span { color: var(--primary); font-weight: 800; }
+        [data-theme="dark"] .dev-footer { color: #94a3b8; }
     </style>
 </head>
 <body>
@@ -180,6 +209,11 @@
     <div id="vehicleList">
         </div>
 
+    <div class="dev-footer">
+        <p>Developed by <span>Chamalka</span></p>
+        <p><i class="fas fa-phone-alt"></i> 076 856 7788</p>
+    </div>
+
     <div class="fab-container">
         <button class="fab" onclick="openModal('addModal')">
             <i class="fas fa-plus"></i> වාහනයක් එක් කරන්න
@@ -206,13 +240,13 @@
                 <label class="form-label">වාහන වර්ගය (කෝටාව)</label>
                 <select id="vType" class="form-input" required>
                     <option value="" disabled selected>වර්ගය තෝරන්න</option>
-                    <option value="25">මෝටර් රථ / Motor Cars (25L)</option>
-                    <option value="20">ත්‍රීරෝද රථ / Three-Wheelers (20L)</option>
-                    <option value="8">යතුරුපැදි / Motorcycles (8L)</option>
-                    <option value="50">වෑන් රථ / Vans (50L)</option>
-                    <option value="100">බස් රථ / Buses (100L)</option>
-                    <option value="200">ලොරි රථ / Lorries (200L)</option>
-                    <option value="40">විශේෂ වාහන / Special (40L)</option>
+                    <option value="25">මෝටර් රථ (25L)</option>
+                    <option value="20">ත්‍රීරෝද රථ (20L)</option>
+                    <option value="8">යතුරුපැදි (8L)</option>
+                    <option value="50">වෑන් රථ (50L)</option>
+                    <option value="100">බස් රථ (100L)</option>
+                    <option value="200">ලොරි රථ (200L)</option>
+                    <option value="40">විශේෂ වාහන (40L)</option>
                 </select>
             </div>
             <div class="form-group">
@@ -227,7 +261,7 @@
             </div>
             <div class="form-group">
                 <label class="form-label">QR කේතය (Image)</label>
-                <input type="file" id="vQR" accept="image/*" class="form-input" style="padding: 12px;" required>
+                <input type="file" id="vQR" accept="image/*" class="form-input" style="padding: 12px; background: transparent;" required>
             </div>
             <button type="submit" class="btn-submit">වාහනය Save කරන්න</button>
         </form>
@@ -241,7 +275,7 @@
             <button class="btn-close" onclick="closeModals()"><i class="fas fa-times"></i></button>
         </div>
         <div class="calc-header">
-            <div class="form-label">ලීටරයක මිල</div>
+            <div class="form-label" style="margin-bottom: 4px;">ලීටරයක මිල</div>
             <div class="calc-price" id="logUnitPrice">0</div>
         </div>
         <div class="calc-grid">
@@ -271,13 +305,12 @@
 <div class="modal-backdrop" id="updateModal">
     <div class="modal-content" style="text-align: center;">
         <div style="margin-bottom: 16px;">
-            <i class="fas fa-gift" style="font-size: 3.5rem; color: var(--primary);"></i>
+            <i class="fas fa-gift" style="font-size: 4rem; color: var(--primary);"></i>
         </div>
         <h2 style="font-size: 1.6rem; font-weight: 800; margin-bottom: 8px;">යෙදුම යාවත්කාලීන විය!</h2>
-        <p style="color: #71717a; font-size: 0.95rem; margin-bottom: 24px;">අලුත් සංස්කරණය වෙත සාදරයෙන් පිළිගනිමු.</p>
+        <p style="color: #64748b; font-size: 0.95rem; margin-bottom: 24px;">අලුත් සංස්කරණය වෙත සාදරයෙන් පිළිගනිමු.</p>
         
-        <div class="msg-box" id="updateMessageContent">
-            </div>
+        <div class="msg-box" id="updateMessageContent"></div>
 
         <button onclick="closeUpdateModal()" class="btn-submit">හරි, මට තේරුණා!</button>
     </div>
@@ -286,12 +319,11 @@
 <div class="modal-backdrop" id="announcementModal">
     <div class="modal-content" style="text-align: center;">
         <div style="margin-bottom: 16px;">
-            <i class="fas fa-bullhorn" style="font-size: 3.5rem; color: var(--warning);"></i>
+            <i class="fas fa-bullhorn" style="font-size: 4rem; color: var(--warning);"></i>
         </div>
-        <h2 id="announceTitle" style="font-size: 1.5rem; font-weight: 800; margin-bottom: 12px; color: var(--warning);">විශේෂ නිවේදනයයි!</h2>
+        <h2 id="announceTitle" style="font-size: 1.6rem; font-weight: 800; margin-bottom: 12px; color: var(--warning);">විශේෂ නිවේදනයයි!</h2>
         
-        <div class="msg-box" id="announceBody" style="font-size: 0.95rem; text-align: left;">
-            </div>
+        <div class="msg-box" id="announceBody" style="font-size: 1rem; text-align: left;"></div>
 
         <button onclick="closeAnnouncement()" class="btn-submit" style="background: var(--warning); color: #000;">හරි, මට තේරුණා!</button>
     </div>
@@ -301,11 +333,12 @@
     // ==========================================
     // 1. UPDATE SYSTEM CONFIGURATION
     // ==========================================
-    const APP_VERSION = "2.1"; 
+    const APP_VERSION = "2.2"; 
     const UPDATE_MESSAGE = `
-        <strong>අලුත් සංස්කරණය (v2.1)</strong><br><br>
-        ✅ සම්පූර්ණ පද්ධතියම <strong>සිංහල භාෂාවට</strong> පරිවර්තනය කිරීම.<br>
-        ✅ තවදුරටත් භාවිතය පහසු කිරීම.
+        <strong>අලුත් සංස්කරණය (v2.2)</strong><br><br>
+        ✅ <strong>Quota Progress Bar</strong> එකක් හඳුන්වාදීම. (ඉතිරි ඉන්ධන ප්‍රමාණය පහසුවෙන් බලාගන්න).<br>
+        ✅ වඩාත් ආකර්ෂණීය Premium UI එකක් නිර්මාණය කිරීම.<br>
+        ✅ Developer විස්තර ඇතුළත් කිරීම.
     `;
 
     // ==========================================
@@ -314,7 +347,7 @@
     const ANNOUNCEMENT_ID = "msg_1"; 
     const ANNOUNCE_TITLE = "ආයුබෝවන්!"; 
     const ANNOUNCE_BODY = `
-        මෙම පද්ධතිය දැන් සිංහල භාෂාවෙන් භාවිතා කළ හැක. ඔබට අවශ්‍ය පණිවිඩ මෙතැනින් යාවත්කාලීන කරගත හැක.
+        මෙම පද්ධතිය දැන් සිංහල භාෂාවෙන් භාවිතා කළ හැක. අලුතින් එක් කළ Quota Progress Bar එක හරහා ඔබට ඉතිරි වී ඇති ඉන්ධන ප්‍රමාණය පහසුවෙන් දැකගත හැක.
     `;
     // ==========================================
 
@@ -322,6 +355,8 @@
     let lastResetDate = localStorage.getItem('fuelPass_v5_lastReset') || "";
     let currentLogVehicleId = null;
     let currentLogPrice = 0;
+    let currentLogQuota = 0;
+    let currentLogSpentLiters = 0;
 
     function init() {
         document.getElementById('versionDisplay').innerText = APP_VERSION;
@@ -335,7 +370,7 @@
     }
 
     function checkUpdates() {
-        const savedVersion = localStorage.getItem('fuelPassCurrentVersion_Neo');
+        const savedVersion = localStorage.getItem('fuelPassCurrentVersion_Premium');
         if (savedVersion !== APP_VERSION) {
             document.getElementById('updateMessageContent').innerHTML = UPDATE_MESSAGE;
             setTimeout(() => { openModal('updateModal'); }, 600);
@@ -343,13 +378,13 @@
     }
 
     function closeUpdateModal() {
-        localStorage.setItem('fuelPassCurrentVersion_Neo', APP_VERSION);
+        localStorage.setItem('fuelPassCurrentVersion_Premium', APP_VERSION);
         closeModals();
     }
 
     function checkAnnouncements() {
         const seenMsg = localStorage.getItem('fuelPass_seenMessage');
-        const savedVersion = localStorage.getItem('fuelPassCurrentVersion_Neo');
+        const savedVersion = localStorage.getItem('fuelPassCurrentVersion_Premium');
         
         if (savedVersion === APP_VERSION && ANNOUNCEMENT_ID !== "" && seenMsg !== ANNOUNCEMENT_ID) {
             document.getElementById('announceTitle').innerText = ANNOUNCE_TITLE;
@@ -379,6 +414,7 @@
     function checkWeeklyReset() {
         const now = new Date();
         const today = now.toLocaleDateString();
+        // Sunday is 0, Monday is 1... Saturday is 6
         if (now.getDay() === 6 && lastResetDate !== today) {
             vehicles.forEach(v => { v.spentLiters = 0; v.spentCost = 0; });
             lastResetDate = today;
@@ -415,19 +451,45 @@
         const inputRs = document.getElementById('inputAmount');
 
         inputL.addEventListener('input', function() {
-            if(this.value && currentLogPrice > 0) inputRs.value = (parseFloat(this.value) * currentLogPrice).toFixed(2);
-            else inputRs.value = '';
+            if(this.value && currentLogPrice > 0) {
+                let enteredLiters = parseFloat(this.value);
+                // Prevent entering more than remaining quota
+                let remaining = currentLogQuota - currentLogSpentLiters;
+                if(enteredLiters > remaining) {
+                    alert(`ඔබට ලබාගත හැක්කේ ලීටර් ${remaining.toFixed(1)} ක් පමණි!`);
+                    this.value = remaining.toFixed(2);
+                    enteredLiters = remaining;
+                }
+                inputRs.value = (enteredLiters * currentLogPrice).toFixed(2);
+            } else inputRs.value = '';
         });
 
         inputRs.addEventListener('input', function() {
-            if(this.value && currentLogPrice > 0) inputL.value = (parseFloat(this.value) / currentLogPrice).toFixed(2);
-            else inputL.value = '';
+            if(this.value && currentLogPrice > 0) {
+                let calcLiters = parseFloat(this.value) / currentLogPrice;
+                let remaining = currentLogQuota - currentLogSpentLiters;
+                if(calcLiters > remaining) {
+                    alert(`ඔබට ලබාගත හැක්කේ ලීටර් ${remaining.toFixed(1)} ක් (රු.${(remaining*currentLogPrice).toFixed(2)}) පමණි!`);
+                    calcLiters = remaining;
+                    this.value = (calcLiters * currentLogPrice).toFixed(2);
+                }
+                inputL.value = calcLiters.toFixed(2);
+            } else inputL.value = '';
         });
     }
 
-    function openLogModal(id, price) {
+    function openLogModal(id, price, quota, spent) {
         currentLogVehicleId = id;
         currentLogPrice = price;
+        currentLogQuota = quota;
+        currentLogSpentLiters = spent;
+        
+        let remaining = quota - spent;
+        if(remaining <= 0) {
+            alert("මෙම වාහනයේ කෝටාව අවසන් වී ඇත!");
+            return;
+        }
+
         document.getElementById('logUnitPrice').innerText = "Rs. " + price;
         document.getElementById('inputLiters').value = '';
         document.getElementById('inputAmount').value = '';
@@ -458,9 +520,8 @@
             const num = document.getElementById('vNumber').value;
             const match = num.match(/\d/g);
             
-            // Getting Sinhala name part before the slash or bracket
             let fullTypeName = document.getElementById('vType').options[document.getElementById('vType').selectedIndex].text;
-            let typeName = fullTypeName.split('/')[0].trim();
+            let typeName = fullTypeName.split('(')[0].trim();
             
             let fullFuelName = document.getElementById('fType').options[document.getElementById('fType').selectedIndex].text;
             let fuelName = fullFuelName.split('(')[0].trim();
@@ -489,7 +550,7 @@
             list.innerHTML = `
                 <div class="empty-state">
                     <i class="fas fa-car empty-icon"></i>
-                    <h3>තවමත් වාහන නැත</h3>
+                    <h3 style="font-weight:800; margin-bottom:8px; color:var(--text-color);">තවමත් වාහන නැත</h3>
                     <p>පහළ ඇති + බොත්තම ඔබා වාහනයක් ඇතුලත් කරන්න.</p>
                 </div>`;
             return;
@@ -502,6 +563,17 @@
             const isAllowed = (v.lastDigit % 2 === 0) === isEvenDay;
             const spentL = v.spentLiters || 0;
             const spentC = v.spentCost || 0;
+            const quota = v.quota || 0;
+            
+            // Progress Calculation
+            let percent = (spentL / quota) * 100;
+            if(percent > 100) percent = 100;
+            let remainL = quota - spentL;
+            if(remainL < 0) remainL = 0;
+            
+            let barColorClass = "fill-good";
+            if (percent >= 80) barColorClass = "fill-danger";
+            else if (percent >= 50) barColorClass = "fill-warn";
 
             const card = document.createElement('div');
             card.className = 'vehicle-card';
@@ -519,9 +591,14 @@
                         ${isAllowed ? 'අද දින ඉන්ධන ලබාගත හැක' : 'අද දින ලබාගත නොහැක'}
                     </div>
                     
-                    <div class="specs-grid">
-                        <div class="spec-item"><span class="spec-label">වර්ගය (කෝටාව)</span><span class="spec-val">${v.typeName} (${v.quota}L)</span></div>
-                        <div class="spec-item"><span class="spec-label">ඉන්ධන</span><span class="spec-val">${v.fuelName}</span></div>
+                    <div class="quota-section">
+                        <div class="quota-header">
+                            <span class="quota-label">ඉතිරි කෝටාව</span>
+                            <span class="quota-text"><b>${remainL.toFixed(1)}L</b> / ${quota}L</span>
+                        </div>
+                        <div class="progress-bg">
+                            <div class="progress-fill ${barColorClass}" style="width: ${percent}%;"></div>
+                        </div>
                     </div>
 
                     <div class="vehicle-stats">
@@ -536,7 +613,7 @@
                     </div>
 
                     <div class="vc-actions">
-                        <button class="btn-primary" ${!isAllowed ? 'disabled' : ''} onclick="openLogModal(${v.id}, ${v.price})">
+                        <button class="btn-primary" ${!isAllowed || remainL <= 0 ? 'disabled' : ''} onclick="openLogModal(${v.id}, ${v.price}, ${v.quota}, ${v.spentLiters})">
                             <i class="fas fa-pen-to-square"></i> සටහන් කරන්න
                         </button>
                         <button class="btn-icon" onclick="deleteV(${v.id})"><i class="fas fa-trash"></i></button>
