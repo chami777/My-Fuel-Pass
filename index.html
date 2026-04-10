@@ -62,7 +62,7 @@
         [data-theme="dark"] .info-text { color: #cbd5e1; background: rgba(255,255,255,0.05); }
 
         /* Summary Stats */
-        .stats-container { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 36px; }
+        .stats-container { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
         .stat-card { background: var(--card-bg); padding: 20px; border-radius: var(--radius-md); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); display: flex; flex-direction: column; align-items: flex-start; position: relative; overflow: hidden; }
         .stat-icon { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; margin-bottom: 12px; }
         .icon-blue { background: rgba(79, 70, 229, 0.1); color: var(--primary); }
@@ -70,6 +70,11 @@
         .stat-label { font-size: 0.8rem; font-weight: 700; color: #64748b; text-transform: uppercase; margin-bottom: 6px; }
         [data-theme="dark"] .stat-label { color: #94a3b8; }
         .stat-value { font-size: 1.6rem; font-weight: 800; }
+
+        /* Map Button */
+        .map-btn-container { margin-bottom: 30px; }
+        .btn-map { width: 100%; background: linear-gradient(135deg, var(--warning), #f59e0b); color: #fff; border: none; padding: 16px; border-radius: var(--radius-md); font-weight: 800; font-size: 1.05rem; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3); transition: transform 0.2s; }
+        .btn-map:active { transform: scale(0.98); }
 
         /* Section Header */
         .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
@@ -89,7 +94,7 @@
         
         .vc-body { padding: 24px; }
         
-        /* Progress Bar (NEW) */
+        /* Progress Bar */
         .quota-section { margin-bottom: 20px; }
         .quota-header { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.85rem; font-weight: 700; }
         .quota-label { color: #64748b; text-transform: uppercase; }
@@ -98,7 +103,6 @@
         
         .progress-bg { width: 100%; height: 12px; background: var(--border-color); border-radius: 10px; overflow: hidden; position: relative; }
         .progress-fill { height: 100%; border-radius: 10px; transition: width 0.5s ease; }
-        /* Green if > 50%, Warning if > 20%, Danger if <= 20% */
         .fill-good { background: linear-gradient(90deg, #10b981, #34d399); }
         .fill-warn { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
         .fill-danger { background: linear-gradient(90deg, #ef4444, #f87171); }
@@ -107,7 +111,6 @@
         .status-allowed { background: rgba(16, 185, 129, 0.1); color: var(--success); border: 1px solid rgba(16, 185, 129, 0.2); }
         .status-denied { background: rgba(239, 68, 68, 0.1); color: var(--danger); border: 1px solid rgba(239, 68, 68, 0.2); }
 
-        /* Individual Vehicle Stats */
         .vehicle-stats { background: var(--bg-color); border-radius: 16px; padding: 16px; margin-bottom: 20px; display: flex; justify-content: space-between; border: 1px solid var(--border-color); }
         .v-stat { text-align: center; flex: 1; display: flex; flex-direction: column; gap: 4px; }
         .v-stat:first-child { border-right: 1px solid var(--border-color); }
@@ -199,6 +202,12 @@
         </div>
     </div>
 
+    <div class="map-btn-container">
+        <button class="btn-map" onclick="openMapModal()">
+            <i class="fas fa-map-marked-alt"></i> ආසන්නතම පිරවුම්හල් සොයන්න
+        </button>
+    </div>
+
     <div class="section-header">
         <h2>මගේ වාහන</h2>
         <button class="reset-btn" onclick="resetExpenses()">
@@ -268,6 +277,24 @@
     </div>
 </div>
 
+<div class="modal-backdrop" id="mapModal">
+    <div class="modal-content" style="padding-bottom: 30px; height: 85vh; display: flex; flex-direction: column;">
+        <div class="modal-header">
+            <h2 style="font-size: 1.3rem;">පිරවුම්හල් සිතියම</h2>
+            <button class="btn-close" onclick="closeModals()"><i class="fas fa-times"></i></button>
+        </div>
+        <div style="display: flex; gap: 10px; margin-bottom: 16px;">
+            <input type="text" id="citySearch" class="form-input" placeholder="උදා: Balangoda" style="flex: 1; padding: 12px;">
+            <button class="btn-primary" style="width: auto; padding: 0 20px; margin-top: 0; border-radius: 12px;" onclick="searchFuelStations()">
+                <i class="fas fa-search"></i> සොයන්න
+            </button>
+        </div>
+        <div style="flex: 1; border-radius: 16px; overflow: hidden; border: 2px solid var(--border-color); background: var(--bg-color);">
+            <iframe id="mapFrame" width="100%" height="100%" frameborder="0" style="border:0" allowfullscreen></iframe>
+        </div>
+    </div>
+</div>
+
 <div class="modal-backdrop" id="logModal">
     <div class="modal-content">
         <div class="modal-header">
@@ -309,9 +336,7 @@
         </div>
         <h2 style="font-size: 1.6rem; font-weight: 800; margin-bottom: 8px;">යෙදුම යාවත්කාලීන විය!</h2>
         <p style="color: #64748b; font-size: 0.95rem; margin-bottom: 24px;">අලුත් සංස්කරණය වෙත සාදරයෙන් පිළිගනිමු.</p>
-        
         <div class="msg-box" id="updateMessageContent"></div>
-
         <button onclick="closeUpdateModal()" class="btn-submit">හරි, මට තේරුණා!</button>
     </div>
 </div>
@@ -322,37 +347,33 @@
             <i class="fas fa-bullhorn" style="font-size: 4rem; color: var(--warning);"></i>
         </div>
         <h2 id="announceTitle" style="font-size: 1.6rem; font-weight: 800; margin-bottom: 12px; color: var(--warning);">විශේෂ නිවේදනයයි!</h2>
-        
         <div class="msg-box" id="announceBody" style="font-size: 1rem; text-align: left;"></div>
-
         <button onclick="closeAnnouncement()" class="btn-submit" style="background: var(--warning); color: #000;">හරි, මට තේරුණා!</button>
     </div>
 </div>
 
 <script>
     // ==========================================
-    // 1. UPDATE SYSTEM CONFIGURATION
+    // UPDATE SYSTEM CONFIGURATION
     // ==========================================
-    const APP_VERSION = "2.2"; 
+    const APP_VERSION = "2.4"; 
     const UPDATE_MESSAGE = `
-        <strong>අලුත් සංස්කරණය (v2.2)</strong><br><br>
-        ✅ <strong>Quota Progress Bar</strong> එකක් හඳුන්වාදීම. (ඉතිරි ඉන්ධන ප්‍රමාණය පහසුවෙන් බලාගන්න).<br>
-        ✅ වඩාත් ආකර්ෂණීය Premium UI එකක් නිර්මාණය කිරීම.<br>
-        ✅ Developer විස්තර ඇතුළත් කිරීම.
+        <strong>අලුත් සංස්කරණය (v2.4)</strong><br><br>
+        ✅ <strong>In-App Map</strong> සිතියමේ දෝෂය නිරාකරණය කිරීම.<br>
+        ✅ සතිපතා කෝටාව ස්වයංක්‍රීයව අලුත් වීමේ (Reset) ක්‍රමය තවදුරටත් කාර්යක්ෂම කිරීම.
     `;
 
     // ==========================================
-    // 2. CUSTOM ANNOUNCEMENT SYSTEM
+    // CUSTOM ANNOUNCEMENT SYSTEM
     // ==========================================
     const ANNOUNCEMENT_ID = "msg_1"; 
     const ANNOUNCE_TITLE = "ආයුබෝවන්!"; 
     const ANNOUNCE_BODY = `
-        මෙම පද්ධතිය දැන් සිංහල භාෂාවෙන් භාවිතා කළ හැක. අලුතින් එක් කළ Quota Progress Bar එක හරහා ඔබට ඉතිරි වී ඇති ඉන්ධන ප්‍රමාණය පහසුවෙන් දැකගත හැක.
+        දැන් ඔබට ආසන්නතම ඉන්ධන පිරවුම්හල් සෙවීමේ පහසුකම App එක ඇතුලෙන්ම භාවිතා කළ හැක. සෙවුම් තීරුවේ ඔබේ නගරය ඇතුලත් කර සොයන්න.
     `;
     // ==========================================
 
     let vehicles = JSON.parse(localStorage.getItem('fuelPass_v5_vehicles')) || [];
-    let lastResetDate = localStorage.getItem('fuelPass_v5_lastReset') || "";
     let currentLogVehicleId = null;
     let currentLogPrice = 0;
     let currentLogQuota = 0;
@@ -413,11 +434,15 @@
 
     function checkWeeklyReset() {
         const now = new Date();
-        const today = now.toLocaleDateString();
-        // Sunday is 0, Monday is 1... Saturday is 6
-        if (now.getDay() === 6 && lastResetDate !== today) {
+        const day = now.getDay();
+        const diff = now.getDate() - day + (day === 0 ? -6 : 1); 
+        const mondayOfThisWeek = new Date(now.setDate(diff)).toDateString();
+
+        const savedWeek = localStorage.getItem('fuelPass_v5_currentWeek') || "";
+        
+        if (savedWeek !== mondayOfThisWeek) {
             vehicles.forEach(v => { v.spentLiters = 0; v.spentCost = 0; });
-            lastResetDate = today;
+            localStorage.setItem('fuelPass_v5_currentWeek', mondayOfThisWeek);
             saveData();
         }
     }
@@ -446,6 +471,23 @@
         document.getElementById('totalCostDisplay').innerText = "Rs. " + tCost.toLocaleString(undefined, {minimumFractionDigits: 0});
     }
 
+    function openMapModal() {
+        openModal('mapModal');
+        const mapFrame = document.getElementById('mapFrame');
+        if(!mapFrame.src) {
+            mapFrame.src = "https://maps.google.com/maps?q=Sri Lanka fuel station&t=&z=7&ie=UTF8&iwloc=&output=embed";
+        }
+    }
+
+    function searchFuelStations() {
+        let city = document.getElementById('citySearch').value;
+        if(!city) city = "Sri Lanka"; 
+        
+        const mapFrame = document.getElementById('mapFrame');
+        let searchQuery = encodeURIComponent(city + " fuel station");
+        mapFrame.src = `https://maps.google.com/maps?q=${searchQuery}&t=&z=13&ie=UTF8&iwloc=&output=embed`;
+    }
+
     function setupCalculator() {
         const inputL = document.getElementById('inputLiters');
         const inputRs = document.getElementById('inputAmount');
@@ -453,7 +495,6 @@
         inputL.addEventListener('input', function() {
             if(this.value && currentLogPrice > 0) {
                 let enteredLiters = parseFloat(this.value);
-                // Prevent entering more than remaining quota
                 let remaining = currentLogQuota - currentLogSpentLiters;
                 if(enteredLiters > remaining) {
                     alert(`ඔබට ලබාගත හැක්කේ ලීටර් ${remaining.toFixed(1)} ක් පමණි!`);
@@ -565,7 +606,6 @@
             const spentC = v.spentCost || 0;
             const quota = v.quota || 0;
             
-            // Progress Calculation
             let percent = (spentL / quota) * 100;
             if(percent > 100) percent = 100;
             let remainL = quota - spentL;
@@ -632,7 +672,6 @@
 
     function saveData() {
         localStorage.setItem('fuelPass_v5_vehicles', JSON.stringify(vehicles));
-        localStorage.setItem('fuelPass_v5_lastReset', lastResetDate);
     }
 
     function deleteV(id) { if(confirm("මෙම වාහනය ඉවත් කිරීමට අවශ්‍යද?")) { vehicles = vehicles.filter(v => v.id !== id); saveData(); updateUI(); } }
@@ -655,8 +694,9 @@
 
     init();
 </script>
+
 <script>
-    // Offline වැඩ කිරීම සඳහා Service Worker සම්බන්ධ කිරීම
+    // Offline Service Worker Integration
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('sw.js')
@@ -665,5 +705,6 @@
         });
     }
 </script>
+
 </body>
 </html>
